@@ -5,9 +5,18 @@
 package autonoma.hospitalapp.exceptions;
 
 /**
- *
- * @author tomas
+ * La clase consiste en con una excepcíon decir que el hospital quebro
+ * @author Tomas
+ *  versión 1.0
+ * @since 2025-04-08
  */
-public class DeclararQuiebraException {
-    
-}
+  public class DeclararQuiebraException  extends RuntimeException{
+
+      /**
+       *  Se dice que el hospital ha entrado en quiebra
+       */
+        public DeclararQuiebraException() {
+            super("El hospital ha entrado en quiebra");
+        }
+    }
+
