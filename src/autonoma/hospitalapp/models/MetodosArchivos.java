@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Clase  que proporciona  métodos para manejar archivos del sistema hospitalario.
- * @author Santiago Calderon Murillo
+ * @author Tomas
  * Versión 1.0 
  * since@ 2025-04-07
  */
@@ -197,4 +197,3 @@ public class MetodosArchivos {
         return localizacion;
     }
 }
-

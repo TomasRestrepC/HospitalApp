@@ -7,7 +7,7 @@ import java.util.List;
  * Contiene información personal, su estado de salud, y el historial de enfermedades y medicamentos.
  * Permite agregar enfermedades y aplicar medicamentos para curarlas.
  * 
- * @author Tomas
+ * @author santiago calderon
  * @version 1.0
  * @since 2025-04-07
  */
