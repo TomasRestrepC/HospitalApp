@@ -8,7 +8,7 @@ package autonoma.hospitalapp.exceptions;
  * Clase que tiene la Cita del paciente en el hospital
  * @author Tomas
  * versión 1.0
- * since@ 2025-04-07
+ * since@ 2025-04-09
  */
 
 public class MalaFormulacionException extends Exception {
