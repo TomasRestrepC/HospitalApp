@@ -1,0 +1,12 @@
+Nombre:Hospital San Jose
+Dirección:Calle Falsa 123
+Teléfono:3001234567
+Presupuesto:5000000.0
+MetaVentasAnual:1.0E7
+FechaFundacion:1999-08-12
+Estado:activo
+Localización:4.61,74.06
+GerenteNombre:Laura Restrepo
+GerenteDocumento:111222333
+GerenteEdad:45
+GerenteCarrera:Administracion

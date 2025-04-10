@@ -1,0 +1,2 @@
+Salud;Carlos Perez;12345678;35;50000.0;Cardiologia;40;3124567890
+Operativo;Laura Gomez;87654321;28;50000.0;Mantenimiento;3119876543

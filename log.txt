@@ -1,0 +1,2 @@
+[2025-04-10 10:52:00] ✅ Datos de prueba guardados correctamente
+[2025-04-10 10:56:12] Datos de prueba guardados correctamente

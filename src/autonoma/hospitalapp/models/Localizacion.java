@@ -12,15 +12,16 @@ package autonoma.hospitalapp.models;
  * Versión 1.0
  * @since 2025-04-07
  */
+
 public class Localizacion {
 
     /**
-     * Coordenada longitudinal del punto geográfico..
+     * Coordenada longitudinal del punto geográfico.
      */
     private double longitud;
 
     /**
-     * Coordenada latitudinal del punto geográfico..
+     * Coordenada latitudinal del punto geográfico.
      */
     private double latitud;
 
@@ -35,10 +36,17 @@ public class Localizacion {
         this.latitud = latitud;
     }
 
-    Localizacion() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    /**
+     * Constructor vacío que inicializa latitud y longitud en cero.
+     * 
+     * Se utiliza principalmente cuando se cargan los datos desde archivos
+     * o se crea una instancia por defecto.
+     */
+    public Localizacion() {
+        this.longitud = 0;
+        this.latitud = 0;
     }
-
+    
     /**
      * Obtiene el valor de la longitud.
      * 

@@ -29,7 +29,7 @@ public class MedicamentoGenerico extends Medicamento {
      * Este precio se establece como un 10% adicional sobre el costo base.
      */
     @Override
-    protected void calcularPrecioVenta() {
+    public void calcularPrecioVenta() {
         super.precioVenta = super.getCosto() * 1.10;
     }
 }

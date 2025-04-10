@@ -127,5 +127,5 @@ public abstract class Medicamento {
      * Método abstracto que obliga a las subclases a implementar 
      * la lógica para calcular el precio de venta del medicamento.
      */
-    protected abstract void calcularPrecioVenta();
+    public abstract void calcularPrecioVenta();
 }

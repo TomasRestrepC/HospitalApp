@@ -45,7 +45,7 @@ public class MedicamentoMarca extends Medicamento {
      * El precio se establece como un 25% adicional al costo base.
      */
     @Override
-    protected void calcularPrecioVenta() {
+    public void calcularPrecioVenta() {
         this.precioVenta = super.getCosto() * 1.25;
     }
 }
