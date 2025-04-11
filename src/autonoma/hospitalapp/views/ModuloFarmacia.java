@@ -21,6 +21,19 @@ public static List<String> listaMedicamentos = new ArrayList<>();
     public ModuloFarmacia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaFarmacia.getModel();
+modelo.setRowCount(0);
+
+for (String medicamento : listaMedicamentos) {
+    // Ejemplo: "Ibuprofeno, 50"
+    String[] partes = medicamento.split(",");
+    if (partes.length >= 2) {
+        String nombre = partes[0].trim();
+        String cantidad = partes[1].trim();
+        modelo.addRow(new Object[]{nombre, cantidad, "-"});
+    }
+}
+
         campoNombreMedicamento.setText("Nombre del medicamento");
     campoNombreMedicamento.setForeground(java.awt.Color.GRAY);
     campoNombreMedicamento.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -202,7 +215,8 @@ if (fila != -1) {
                 return;
             }
 
-            ModuloFarmacia.listaMedicamentos.add(nombre);
+            ModuloFarmacia.listaMedicamentos.add(nombre + ", " + cantidad);
+
 
             javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaFarmacia.getModel();
             modelo.addRow(new Object[]{nombre, cantidad, proveedor});

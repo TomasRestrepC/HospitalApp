@@ -6,6 +6,9 @@ package autonoma.hospitalapp.views;
 import javax.swing.JOptionPane;
 import java.util.List;
 import java.util.ArrayList;
+import autonoma.hospitalapp.models.Paciente;
+import autonoma.hospitalapp.utils.PacientePersistencia;
+
 
 
 /**
@@ -16,12 +19,28 @@ import java.util.ArrayList;
  */
 
 public class ModuloPacientes extends javax.swing.JDialog {
-public static List<String> listaPacientes = new ArrayList<>();
+public static List<autonoma.hospitalapp.models.Paciente> listaPacientes = new ArrayList<>();
+
 
     
     public ModuloPacientes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        try {
+    listaPacientes = PacientePersistencia.cargarPacientes("data/pacientes.txt"); // Ajusta la ruta si hace falta
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error al cargar pacientes: " + e.getMessage());
+}
+
+// Mostrar en tabla
+javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaPacientes.getModel();
+modelo.setRowCount(0); // Limpiar tabla
+
+for (Paciente p : listaPacientes) {
+    modelo.addRow(new Object[]{p.getNombre(), p.getEdad(), p.getEstado()});
+}
+
+  
 
     jTextField1.setText("Nombre");
     jTextField1.setForeground(java.awt.Color.GRAY);
@@ -190,14 +209,15 @@ String nombre = jTextField1.getText();
                 return;
             }
 
-            // Agregar paciente a la lista estática
-            ModuloPacientes.listaPacientes.add(nombre);
+            Paciente nuevoPaciente = new Paciente(
+                nombre, "123", edad, "000", "correo@ejemplo.com", enfermedad,
+                new ArrayList<>(), new ArrayList<>()
+            );
+            ModuloPacientes.listaPacientes.add(nuevoPaciente);
 
-            // Agregar a la tabla
             javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaPacientes.getModel();
             modelo.addRow(new Object[]{nombre, edad, enfermedad});
 
-            // Limpiar campos
             jTextField1.setText("");
             jTextField2.setText("");
             jTextField3.setText("");

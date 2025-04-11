@@ -19,6 +19,19 @@ public static List<String> listaEmpleados = new ArrayList<>();
    
     public ModuloEmpleados() {
         initComponents();
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaEmpleados.getModel();
+modelo.setRowCount(0); // Limpiar tabla
+
+for (String empleado : listaEmpleados) {
+    // Ejemplo: "Carlos Perez, Cirujano"
+    String[] partes = empleado.split(",");
+    if (partes.length >= 2) {
+        String nombre = partes[0].trim();
+        String cargo = partes[1].trim();
+        modelo.addRow(new Object[]{nombre, cargo, "-"}); // "-" si no hay área
+    }
+}
+
          
     jTextField1.setText("Nombre");
     jTextField1.setForeground(java.awt.Color.GRAY);
@@ -174,7 +187,8 @@ String nombre = jTextField1.getText();
 
     if (!nombre.isEmpty() && !cargo.isEmpty() && !area.isEmpty()) {
         // Agregar a la lista compartida
-        ModuloEmpleados.listaEmpleados.add(nombre);
+        ModuloEmpleados.listaEmpleados.add(nombre + ", " + cargo);
+
 
         // Agregar a la tabla visual
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaEmpleados.getModel();
