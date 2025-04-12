@@ -4,6 +4,11 @@
  */
 package autonoma.hospitalapp.views;
 
+import autonoma.hospitalapp.models.Hospital;
+import autonoma.hospitalapp.utils.HospitalPersistencia;
+import autonoma.hospitalapp.utils.EmpleadoPersistencia;
+import java.io.IOException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,6 +19,7 @@ package autonoma.hospitalapp.views;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
+    private Hospital hospital;
     
     public VentanaPrincipal() {
     initComponents();
@@ -21,8 +27,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     setSize(800, 600);
     setLocationRelativeTo(null);
+    
+    cargarDatos();
 }
 
+        private void cargarDatos() {
+        try {
+            hospital = HospitalPersistencia.cargarHospital("hospital.txt");
+            hospital.setEmpleados(EmpleadoPersistencia.cargarEmpleados("empleados.txt"));
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "No se pudieron cargar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            hospital = new Hospital(); // si falla, al menos creamos una instancia vacía
+        }
+    }
+
+    private void guardarDatos() {
+        try {
+            HospitalPersistencia.guardarHospital(hospital, "hospital.txt");
+            EmpleadoPersistencia.guardarEmpleados(hospital.getEmpleados(), "empleados.txt");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -109,10 +136,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-         System.exit(0);// TODO add your handling code here:
+        guardarDatos(); 
+        System.exit(0);// TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
   
-    
+    public Hospital getHospital() {
+        return hospital;
+    } 
     
     
     public static void main(String args[]) {

@@ -1,0 +1,2 @@
+Pablo;Administrador;Administrativo
+Juan;Barrendero;Aseo

@@ -1,0 +1,2 @@
+Santiago;321;20;correo11@ejemplo.com;001;Cancer
+Tomas;123;20;correo@ejemplo.com;000;Ninguna

@@ -19,7 +19,8 @@ import autonoma.hospitalapp.utils.PacientePersistencia;
  */
 
 public class ModuloPacientes extends javax.swing.JDialog {
-public static List<autonoma.hospitalapp.models.Paciente> listaPacientes = new ArrayList<>();
+    
+    public static List<autonoma.hospitalapp.models.Paciente> listaPacientes = new ArrayList<>();
 
 
     
@@ -197,7 +198,7 @@ for (Paciente p : listaPacientes) {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
-String nombre = jTextField1.getText();
+    String nombre = jTextField1.getText();
     String edadTexto = jTextField2.getText();
     String enfermedad = jTextField3.getText();
 
@@ -213,7 +214,7 @@ String nombre = jTextField1.getText();
                 nombre, "123", edad, "000", "correo@ejemplo.com", enfermedad,
                 new ArrayList<>(), new ArrayList<>()
             );
-            ModuloPacientes.listaPacientes.add(nuevoPaciente);
+            listaPacientes.add(nuevoPaciente);
 
             javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaPacientes.getModel();
             modelo.addRow(new Object[]{nombre, edad, enfermedad});
@@ -241,10 +242,18 @@ String nombre = jTextField1.getText();
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        guardarPacientes();
         this.dispose(); // Cierra esta ventana
-        new autonoma.hospitalapp.views.VentanaPrincipal().setVisible(true);        // TODO add your handling code here:
+                // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void guardarPacientes() {
+        try {
+            PacientePersistencia.guardarPacientes((ArrayList<Paciente>) listaPacientes, "data/pacientes.txt");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar pacientes: " + e.getMessage());
+        }
+    }
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

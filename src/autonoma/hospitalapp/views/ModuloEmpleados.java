@@ -3,34 +3,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package autonoma.hospitalapp.views;
+
 import javax.swing.JOptionPane;
 import java.util.List;
 import java.util.ArrayList;
-
-/**
- *
-* @author Santiago calderon murillo
- * Versión 1.0 
- * since@ 2025-04-08
- */
+import java.io.*;
 
 public class ModuloEmpleados extends javax.swing.JFrame {
-public static List<String> listaEmpleados = new ArrayList<>();
-   
+
+    public static List<String> listaEmpleados = new ArrayList<>();
+
     public ModuloEmpleados() {
         initComponents();
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaEmpleados.getModel();
-modelo.setRowCount(0); // Limpiar tabla
+        cargarEmpleados(); // ✅ Cargar desde el archivo al iniciar
 
-for (String empleado : listaEmpleados) {
-    // Ejemplo: "Carlos Perez, Cirujano"
-    String[] partes = empleado.split(",");
-    if (partes.length >= 2) {
-        String nombre = partes[0].trim();
-        String cargo = partes[1].trim();
-        modelo.addRow(new Object[]{nombre, cargo, "-"}); // "-" si no hay área
-    }
-}
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaEmpleados.getModel();
+        modelo.setRowCount(0); // Limpiar tabla
+
+        for (String empleado : listaEmpleados) {
+            String[] partes = empleado.split(";");
+            if (partes.length >= 3) {
+                String nombre = partes[0];
+                String cargo = partes[1];
+                String area = partes[2];
+                modelo.addRow(new Object[]{nombre, cargo, area});
+            }
+        }
 
          
     jTextField1.setText("Nombre");
@@ -181,36 +179,40 @@ for (String empleado : listaEmpleados) {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRegistrarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarEmpleadoActionPerformed
-String nombre = jTextField1.getText();
-    String cargo = jTextField2.getText();
-    String area = jTextField3.getText();
+        String nombre = jTextField1.getText();
+        String cargo = jTextField2.getText();
+        String area = jTextField3.getText();
 
-    if (!nombre.isEmpty() && !cargo.isEmpty() && !area.isEmpty()) {
-        // Agregar a la lista compartida
-        ModuloEmpleados.listaEmpleados.add(nombre + ", " + cargo);
+        if (!nombre.isEmpty() && !cargo.isEmpty() && !area.isEmpty()) {
+            String linea = nombre + ";" + cargo + ";" + area;
+            listaEmpleados.add(linea);
 
+            javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaEmpleados.getModel();
+            modelo.addRow(new Object[]{nombre, cargo, area});
 
-        // Agregar a la tabla visual
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaEmpleados.getModel();
-        modelo.addRow(new Object[]{nombre, cargo, area});
-
-        // Limpiar campos
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
-    } else {
-        JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
-    }    // TODO add your handling code here:
+            jTextField1.setText("");
+            jTextField2.setText("");
+            jTextField3.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
+        }   // TODO add your handling code here:
     }//GEN-LAST:event_botonRegistrarEmpleadoActionPerformed
 
     private void botonEliminarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarEmpleadoActionPerformed
-int fila = tablaEmpleados.getSelectedRow();
-    if (fila != -1) {
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaEmpleados.getModel();
-        modelo.removeRow(fila);
-    } else {
-        JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar.");
-    }        // TODO add your handling code here:
+        int fila = tablaEmpleados.getSelectedRow();
+        if (fila != -1) {
+            javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaEmpleados.getModel();
+            String nombre = modelo.getValueAt(fila, 0).toString();
+            String cargo = modelo.getValueAt(fila, 1).toString();
+            String area = modelo.getValueAt(fila, 2).toString();
+            String clave = nombre + ";" + cargo + ";" + area;
+
+            listaEmpleados.removeIf(e -> e.equals(clave));
+            modelo.removeRow(fila);
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar.");
+        }
+           // TODO add your handling code here:
     }//GEN-LAST:event_botonEliminarEmpleadoActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -226,10 +228,32 @@ int fila = tablaEmpleados.getSelectedRow();
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    this.dispose(); // Cierra esta ventana
-    new autonoma.hospitalapp.views.VentanaPrincipal().setVisible(true);        // TODO add your handling code here:
+        guardarEmpleados();
+        this.dispose(); // Cierra esta ventana
+       // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void cargarEmpleados() {
+        listaEmpleados.clear();
+        try (BufferedReader br = new BufferedReader(new FileReader("data/empleados.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                listaEmpleados.add(linea);
+            }
+        } catch (IOException e) {
+            System.out.println("Archivo de empleados no encontrado. Se creará uno nuevo al guardar.");
+        }
+    }
+
+    private void guardarEmpleados() {
+        try (PrintWriter writer = new PrintWriter("data/empleados.txt")) {
+            for (String empleado : listaEmpleados) {
+                writer.println(empleado);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar empleados: " + e.getMessage());
+        }
+    }
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

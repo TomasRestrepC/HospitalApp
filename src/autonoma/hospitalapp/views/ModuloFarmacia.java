@@ -6,6 +6,7 @@ package autonoma.hospitalapp.views;
 import javax.swing.JOptionPane;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.*;
 /**
  *
  * @author Santiago calderon murillo
@@ -19,8 +20,9 @@ public static List<String> listaMedicamentos = new ArrayList<>();
 
     
     public ModuloFarmacia(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+        super(parent, modal);        
         initComponents();
+        cargarMedicamentos();
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tablaFarmacia.getModel();
 modelo.setRowCount(0);
 
@@ -203,7 +205,7 @@ if (fila != -1) {
     }//GEN-LAST:event_botonEliminarMedicamentoActionPerformed
 
     private void botonRegistrarMedicamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarMedicamentoActionPerformed
- String nombre = campoNombreMedicamento.getText();
+    String nombre = campoNombreMedicamento.getText();
     String cantidadTexto = campoCantidad.getText();
     String proveedor = campoProveedor.getText();
 
@@ -246,10 +248,32 @@ if (fila != -1) {
     }//GEN-LAST:event_campoCantidadActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        guardarMedicamentos();
         this.dispose(); // Cierra esta ventana
-        new autonoma.hospitalapp.views.VentanaPrincipal().setVisible(true);        // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void cargarMedicamentos() {
+        listaMedicamentos.clear();
+        try (BufferedReader br = new BufferedReader(new FileReader("data/medicamentos.txt"))) {
+            String linea;
+        while ((linea = br.readLine()) != null) {
+            listaMedicamentos.add(linea);
+            }
+            } catch (IOException e) {
+            System.out.println("No se encontró el archivo de medicamentos. Se creará uno nuevo al guardar.");
+        }
+    }   
+    
+    private void guardarMedicamentos() {
+        try (PrintWriter writer = new PrintWriter("data/medicamentos.txt")) {
+            for (String med : listaMedicamentos) {
+                writer.println(med);
+        }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar medicamentos: " + e.getMessage());
+        }
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -61,6 +61,4 @@ public class PacientePersistencia {
         br.close();
         return pacientes;
     }
-
-
 }
